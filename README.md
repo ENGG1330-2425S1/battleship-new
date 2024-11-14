@@ -1,126 +1,96 @@
-# Battleship Python Game
-
-## Table of Contents
-
-- [Introduction](#introduction)
-- [Features](#features)
-- [Installation](#installation)
-- [Usage](#usage)
-- [Directory Structure](#directory-structure)
-- [Game Modes](#game-modes)
-- [Running Tests](#running-tests)
+# Battleship
 
 ## Introduction
 
-Welcome to the **Battleship Python Game**! This is a console-based implementation of the classic Battleship game where you can play against the computer. Strategize your attacks, place your ships wisely, and sink your opponent's fleet to win the game.
+Welcome to **Battleship**, a Python-based implementation of the classic naval combat game. Challenge the computer or your friends in various game modes, strategically place your ships, and aim to sink your opponent's fleet!
 
 ## Features
 
 - **Multiple Game Modes**:
-  - **Attack Mode**: Take turns attacking the computer's grid.
-  - **Defense Mode**: Defend against the computer's attacks.
-  - **Combine Mode**: A mix of both attack and defense strategies.
-  
-- **User-Friendly CLI**: Clear and interactive command-line interface for an enjoyable gaming experience.
+  - **Attack Mode**: Focus on offensive strategies against the computer.
+  - **Defense Mode**: Emphasize defending your own fleet.
+  - **Classic Mode**: Enjoy traditional Battleship gameplay between players.
 
-- **Ship Placement**:
-  - **Manual Placement**: Place your ships manually with coordinates and directions.
-  - **Random Placement**: Let the computer place ships randomly.
+- **Ship Placement**: Choose to place ships manually or have them randomly arranged by the computer.
 
-- **Attack Methods**:
-  - **Horizontal Bomb**
-  - **Vertical Bomb**
-  - **Cross Bomb**
-  - **Common Bomb**
+- **Interactive Command-Line Interface**: User-friendly prompts and clear grid displays enhance the gaming experience.
 
-- **Visual Grid Representation**: Easily view your grid and track hits/misses.
-
-## Installation
-
-1. **Clone the Repository**
-
-   ```bash
-   git clone https://github.com/yourusername/battleship.git
-   cd battleship
-   ```
+- **Comprehensive Testing**: Unit tests ensure the reliability and integrity of game mechanics.
 
 ## Usage
 
-Run the main game script using Python:
+Run the main program to start the game:
 
 ```bash
 python main.py
 ```
 
-**Alternatively**, you can select different game modes:
-
-```bash
-python game_logic/selectmode.py
-```
-
-Follow the on-screen prompts to place your ships and start battling the computer!
+Follow the on-screen instructions to select your game mode, place your ships, and begin the battle!
 
 ## Directory Structure
 
 ```
 battleship/
 ├── .gitignore
-├── constants.py
+├── main.py
 ├── matrix.py
 ├── cli.py
-├── main.py
-├── README.md
+├── constants.py
 ├── game_logic/
 │   ├── __init__.py
-│   ├── attackmode.py
 │   ├── battle.py
-│   ├── combinemode.py
-│   ├── defensemode.py
 │   ├── helper.py
 │   ├── place_ship.py
-│   ├── selectmode.py
-│   ├── welcome.py
-│   └── test.py
+│   └── welcome.py
+├── modes/
+│   ├── __init__.py
+│   ├── attack_mode.py
+│   ├── defense_mode.py
+│   └── classic_mode.py
 └── tests/
-    ├── test_battle.py
-    ├── test_cli.py
+    ├── __init__.py
     ├── test_helper.py
+    ├── test_battle.py
     ├── test_matrix.py
-    └── test_place_ship.py
+    ├── test_place_ship.py
+    └── test_cli.py
 ```
 
-- **`constants.py`**: Defines ship types and labels.
-- **`matrix.py`**: Handles matrix creation and manipulation.
-- **`cli.py`**: Manages command-line interface functions.
-- **`main.py`**: Entry point for the standard game mode.
-- **`game_logic/`**: Contains modules for different game functionalities and modes.
-- **`tests/`**: Contains unit tests for the project.
+### File Descriptions
 
-## Game Modes
+- **main.py**: The entry point of the application. Handles mode selection and initiates the chosen game mode.
+- **matrix.py**: Contains functions for creating and manipulating the game matrix.
+- **cli.py**: Manages the command-line interface, including displaying the game grid and clearing the console.
+- **constants.py**: Defines constants such as ship types, their sizes, and labels.
+  
+#### `game_logic/`
+- **battle.py**: Handles the core battle mechanics, including attacks, merging grids, and checking win conditions.
+- **helper.py**: Provides utility functions for validating inputs, handling positions, and managing rankings.
+- **place_ship.py**: Manages ship placement logic, both for user input and random placement.
+- **welcome.py**: Displays the welcome animation and game introduction.
 
-1. **Standard Mode (`main.py`)**:
-   - Classic Battleship experience where you place your ships and take turns attacking the computer.
+#### `modes/`
+- **attack_mode.py**: Implements the Attack Mode gameplay logic.
+- **defense_mode.py**: Implements the Defense Mode gameplay logic.
+- **classic_mode.py**: Implements the Classic Mode gameplay logic.
 
-2. **Combine Mode (`game_logic/combinemode.py`)**:
-   - A hybrid mode that combines attack and defense strategies for a more challenging gameplay.
-
-3. **Attack Mode (`game_logic/attackmode.py`)**:
-   - Focuses on the offensive aspect, allowing multiple players to attack the computer's grid.
-
-4. **Defense Mode (`game_logic/defensemode.py`)**:
-   - Concentrates on defending your grid against the computer's attacks.
-
-5. **Select Mode (`game_logic/selectmode.py`)**:
-   - Choose between available game modes at the start of the game.
+#### `tests/`
+- **test_helper.py**: Tests for helper functions in `game_logic/helper.py`.
+- **test_battle.py**: Tests for battle mechanics in `game_logic/battle.py`.
+- **test_matrix.py**: Tests for matrix operations in `matrix.py`.
+- **test_place_ship.py**: Tests for ship placement in `game_logic/place_ship.py`.
+- **test_cli.py**: Tests for CLI functions in `cli.py`.
 
 ## Running Tests
 
-Ensure you have `unittest` installed (it's included in the Python standard library).
-
-Navigate to the `tests/` directory and run the test modules:
+All tests are located in the `tests/` directory. To execute the tests, run:
 
 ```bash
 python -m unittest discover tests
 ```
 
-This command will discover and run all tests in the `tests/` directory.
+Alternatively, to run individual test cases:
+
+```bash
+python tests/test_battle.py
+```

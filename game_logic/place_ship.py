@@ -120,7 +120,7 @@ def random_place_ship(matrix):
 
     The function iterates over all ships defined in the `ships` dictionary and attempts to place each ship
     randomly on the board. It chooses a random direction (horizontal or vertical) and a random position
-    on the board. It then calls helper functions to handle the placement and checks if the ship was 
+    on the board. It then calls helper functions to handle the placement and checks if the ship was
     successfully placed. If not, it retries until the ship is placed correctly.
     """
     for ship_name in ships.keys():

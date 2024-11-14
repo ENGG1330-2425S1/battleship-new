@@ -1,16 +1,21 @@
 from cli import clear_console, matrix_output_preprocess
-from game_logic.battle import check_win, merge_grids, random_attack, user_attack
-from matrix import create_matrix, edit_all
+from game_logic.battle import (
+    attack,
+    check_win,
+    merge_grids,
+    random_attack,
+    user_attack_prompt,
+)
+from game_logic.helper import setup_grid
 from game_logic.place_ship import user_place_ships, random_place_ship
-from game_logic.welcome import welcome
 
 
-def classic_mode():
+def run_classic_mode():
     # Set up the ocean grid for both players
-    player_grid = edit_all(create_matrix(10), "~")
-    computer_grid = edit_all(create_matrix(10), "~")
-    player_hitted_grid = edit_all(create_matrix(10), "~")
-    computer_hitted_grid = edit_all(create_matrix(10), "~")
+    player_grid = setup_grid()
+    computer_grid = setup_grid()
+    player_hitted_grid = setup_grid()
+    computer_hitted_grid = setup_grid()
 
     # Place ships on the grid
     player_grid = user_place_ships(player_grid)
@@ -18,39 +23,62 @@ def classic_mode():
     clear_console()
 
     counter = 1
-    player_rounds_won = 0
-    computer_rounds_lost = 0
+    player_win = False
+    computer_win = False
 
     # Game loop
     while True:
+        message = None
+
         # Player's turn
         while True:
-            print(matrix_output_preprocess(merge_grids(computer_hitted_grid, computer_grid)))
-            print(matrix_output_preprocess(computer_grid))
+            clear_console()
+            if message:
+                print(message)
+                message = None
+
             print(f"Player Round {counter}")
             print("-" * 30)
             print(matrix_output_preprocess(computer_hitted_grid))
+            print("-" * 30)
 
-            computer_grid, computer_hitted_grid, message = user_attack(computer_grid, computer_hitted_grid)
+            [row, col], attack_type, error_message = user_attack_prompt(computer_grid)
+
+            if error_message:
+                message = error_message
+                continue
+
+            computer_hitted_grid, is_valid_attack, message = attack(
+                row, col, computer_grid, computer_hitted_grid, attack_type
+            )
+
+            if not is_valid_attack:
+                continue
+
             clear_console()
             print(f"You {message}")
-
-            # Check for hit
-            if message[0] == "h":
-                # Continue attacking if it's a hit
-                continue
-            else:
-                # If it's a miss, break the loop
-                break
-
-        # Check if player won after their turn
-        if check_win(merge_grids(computer_hitted_grid, computer_grid)):
-            clear_console()
-            print(f"You won in round {counter}!")
-            player_rounds_won += 1
             print("-" * 30)
             print(matrix_output_preprocess(computer_hitted_grid))
-            break
+            print("-" * 30)
+            input("Press Enter to continue...")
+
+            # Check for win condition
+            if check_win(merge_grids(computer_hitted_grid, computer_grid)):
+                clear_console()
+                print(f"Player won in round {counter}!")
+                player_win = True
+                break
+
+            # If the attack is a hit
+            if "hit" in message:
+                continue
+
+            message = None
+
+            break  # Exit the player's turn loop
+
+        if player_win:
+            break  # Exit the game loop
 
         clear_console()
 
@@ -58,43 +86,38 @@ def classic_mode():
         while True:
             print(f"Computer Round {counter}")
             print("-" * 30)
+            print(
+                matrix_output_preprocess(merge_grids(player_hitted_grid, player_grid))
+            )
+            print("-" * 30)
+            input("Press Enter to continue...")
 
-            # Attempt to attack until a valid position is hit or missed
-            while True:
-                player_grid, player_hitted_grid, message = random_attack(player_grid, player_hitted_grid)
+            player_hitted_grid, message = random_attack(player_grid, player_hitted_grid)
 
-                # Check for hit
-                if message[0] == "h":
-                    print(matrix_output_preprocess(merge_grids(player_hitted_grid, player_grid)))
-                    print(f"Computer Attack: {message}!")
-                    continue  # Continue attacking if it's a hit
-                else:
-                    # If it's a miss, show the result and break the loop
-                    print(matrix_output_preprocess(merge_grids(player_hitted_grid, player_grid)))
-                    print("-" * 30)
-                    print(f"Computer {message}")
-                    input("Press Enter to continue...")
-                    break  # Exit the attack loop on miss
+            clear_console()
+            print(message)
+            print("-" * 30)
+            print(
+                matrix_output_preprocess(merge_grids(player_hitted_grid, player_grid))
+            )
+            print("-" * 30)
+            input("Press Enter to continue...")
 
-            # Check if computer won after its turn
-            if check_win(merge_grids(player_hitted_grid, player_grid)):
-                clear_console()
-                print(f"Computer won in round {counter}!")
-                computer_rounds_lost += 1
-                print("-" * 30)
-                print(matrix_output_preprocess(player_hitted_grid))
+            if "hit" in message:
+                if check_win(merge_grids(player_hitted_grid, player_grid)):
+                    clear_console()
+                    print(f"Computer won in round {counter}!")
+                    computer_win = True
+                    break
+                continue
+            else:
                 break
 
-        # Increment counter for the next round
-        counter += 1
-        clear_console()
+        if computer_win:
+            break
 
-    # Print final ranking
-    if player_rounds_won > 0:
-        print(f"Winner! You won {player_rounds_won} round(s) against the computer.")
-    else:
-        print(f"Loser! You lost {computer_rounds_lost} round(s) against the computer.")
+        counter += 1
 
 
 if __name__ == "__main__":
-    classic_mode()
+    run_classic_mode()
