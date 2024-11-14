@@ -13,32 +13,38 @@ def defensemode(player_name):
     clear_console()
 
     counter = 1
-
+    player_win = False
     # Game loop
     while True:
-        clear_console()
-        print(f"Round {counter}")
-        print("-" * 30)
-
-        print(matrix_output_preprocess(merge_grids(player_hitted_grid, player_grid)))
-        print("-" * 30)
-        input("Press Enter to continue...")
-
-        player_hitted_grid, message = random_attack(player_grid, player_hitted_grid)
-        clear_console()
-
-        print(message)
-        print("-" * 30)
-        print(matrix_output_preprocess(merge_grids(player_hitted_grid, player_grid)))
-        print("-" * 30)
-        input("Press Enter to continue...")
-
-        if "hit" in message:
-            if check_win(merge_grids(player_hitted_grid, player_grid)):
+        while True:
+            clear_console()
+            print(f"Round {counter}")
+            print("-" * 30)
+    
+            print(matrix_output_preprocess(merge_grids(player_hitted_grid, player_grid)))
+            print("-" * 30)
+            input("Press Enter to continue...")
+    
+            player_hitted_grid, message = random_attack(player_grid, player_hitted_grid)
+            clear_console()
+    
+            print(message)
+            print("-" * 30)
+            print(matrix_output_preprocess(merge_grids(player_hitted_grid, player_grid)))
+            print("-" * 30)
+            input("Press Enter to continue...")
+    
+            if "hit" in message:
+                if check_win(merge_grids(player_hitted_grid, player_grid)):
+                    player_win = True
+                    break
+                continue
+            else:
                 break
-            continue
-        else:
+
+        if player_win:
             break
+        counter += 1
 
     # Final result display
     clear_console()
