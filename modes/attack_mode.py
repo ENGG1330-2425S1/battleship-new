@@ -13,15 +13,15 @@ def add_players() -> List[str]:
     players = []
     while True:
         try:
-            num_players = int(input("How many Generals do we have? "))
+            num_players = int(input("Enter the number of players: "))
             if num_players < 1:
-                raise ValueError("Number of Generals must be at least 1.")
+                raise ValueError("Number of players must be at least 1.")
             break
         except ValueError as e:
             print(e)
 
     for _ in range(num_players):
-        name = input("General's name: ")
+        name = input("Enter player name: ")
         players.append(name)
     return players
 
@@ -45,7 +45,7 @@ def attackmode(player_name: str) -> int:
     # Game loop
     while True:
         # Display grids and round information
-        print(f"{player_name}! Attack!")
+        print(f"{player_name}'s Turn")
         print(f"Round {counter}")
         print("-" * 30)
         print(matrix_output_preprocess(computer_hitted_grid))
@@ -68,7 +68,7 @@ def attackmode(player_name: str) -> int:
         # Check for win condition
         if check_win(merge_grids(computer_hitted_grid, computer_grid)):
             clear_console()
-            print(f"{player_name} defeated the enemy in round {counter}!")
+            print(f"{player_name} won in round {counter}!")
             return counter  # Return the number of rounds taken
 
         counter += 1  # Move to the next round
@@ -95,7 +95,7 @@ def run_attack_mode() -> None:
             rounds = attackmode(player)
             player_rounds[player] = rounds
     except KeyboardInterrupt:
-        print("\nThe Fight was Interrupted. Exiting...")
+        print("\nGame interrupted. Exiting...")
 
     display_rankings(player_rounds)
 

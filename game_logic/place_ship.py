@@ -24,40 +24,40 @@ def handle_place_ships(matrix, ship_name, direction, row, col):
         tuple: A tuple containing the updated matrix and a warning message (if any).
             The warning message will be None if the ship is placed successfully.
             Possible warning messages include:
-            - "Warning! Ship placement is out of horizontal bounds."
-            - "Warning! Position already occupied by {existing_ship_name}."
-            - "Warning! Ship placement is out of vertical bounds."
-            - "Warning! Invalid direction."
+            - "Warning: Ship placement is out of horizontal bounds."
+            - "Warning: Position already occupied by {existing_ship_name}."
+            - "Warning: Ship placement is out of vertical bounds."
+            - "Warning: Invalid direction."
     """
     ship_length = ships[ship_name]
     if direction == "H":
         if col + ship_length > len(matrix[0]):
-            return matrix, "Warning! Ship placement is out of horizontal bounds."
+            return matrix, "Warning: Ship placement is out of horizontal bounds."
         for i in range(ship_length):
             if matrix[row][col + i] != "~":
                 existing_ship = matrix[row][col + i]
                 existing_ship_name = dict_find_key_by_value(ship_labels, existing_ship)
                 return (
                     matrix,
-                    f"Warning! Position already occupied by {existing_ship_name}.",
+                    f"Warning: Position already occupied by {existing_ship_name}.",
                 )
         for i in range(ship_length):
             matrix[row][col + i] = ship_labels[ship_name]
     elif direction == "V":
         if row + ship_length > len(matrix):
-            return matrix, "Warning! Ship placement is out of vertical bounds."
+            return matrix, "Warning: Ship placement is out of vertical bounds."
         for i in range(ship_length):
             if matrix[row + i][col] != "~":
                 existing_ship = matrix[row + i][col]
                 existing_ship_name = dict_find_key_by_value(ship_labels, existing_ship)
                 return (
                     matrix,
-                    f"Warning! Position already occupied by {existing_ship_name}.",
+                    f"Warning: Position already occupied by {existing_ship_name}.",
                 )
         for i in range(ship_length):
             matrix[row + i][col] = ship_labels[ship_name]
     else:
-        return matrix, "Warning! Invalid direction."
+        return matrix, "Warning: Invalid direction."
     return matrix, None
 
 
@@ -81,7 +81,7 @@ def user_place_ships(matrix):
         placed = False
         while not placed:
             clear_console()
-            print("General, place your ships!")
+            print("Player, place your ships!")
             print("-" * 40)
             print(matrix_output_preprocess(matrix))
             print("-" * 40)

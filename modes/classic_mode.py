@@ -27,7 +27,7 @@ def classic_mode():
         while True:
             print(matrix_output_preprocess(merge_grids(computer_hitted_grid, computer_grid)))
             print(matrix_output_preprocess(computer_grid))
-            print(f"Your Round {counter}")
+            print(f"Player Round {counter}")
             print("-" * 30)
             print(matrix_output_preprocess(computer_hitted_grid))
 
@@ -46,7 +46,7 @@ def classic_mode():
         # Check if player won after their turn
         if check_win(merge_grids(computer_hitted_grid, computer_grid)):
             clear_console()
-            print(f"You defeated the enemy in round {counter}!")
+            print(f"You won in round {counter}!")
             player_rounds_won += 1
             print("-" * 30)
             print(matrix_output_preprocess(computer_hitted_grid))
@@ -56,7 +56,7 @@ def classic_mode():
 
         # Computer's turn
         while True:
-            print(f"Enemy Round {counter}")
+            print(f"Computer Round {counter}")
             print("-" * 30)
 
             # Attempt to attack until a valid position is hit or missed
@@ -66,20 +66,20 @@ def classic_mode():
                 # Check for hit
                 if message[0] == "h":
                     print(matrix_output_preprocess(merge_grids(player_hitted_grid, player_grid)))
-                    print(f"Enemy Attack: {message}!")
+                    print(f"Computer Attack: {message}!")
                     continue  # Continue attacking if it's a hit
                 else:
                     # If it's a miss, show the result and break the loop
                     print(matrix_output_preprocess(merge_grids(player_hitted_grid, player_grid)))
                     print("-" * 30)
-                    print(f"Enemy {message}")
+                    print(f"Computer {message}")
                     input("Press Enter to continue...")
                     break  # Exit the attack loop on miss
 
             # Check if computer won after its turn
             if check_win(merge_grids(player_hitted_grid, player_grid)):
                 clear_console()
-                print(f"Enemy defeated you in round {counter}!")
+                print(f"Computer won in round {counter}!")
                 computer_rounds_lost += 1
                 print("-" * 30)
                 print(matrix_output_preprocess(player_hitted_grid))
@@ -91,9 +91,9 @@ def classic_mode():
 
     # Print final ranking
     if player_rounds_won > 0:
-        print(f"General! You won {player_rounds_won} round(s) against the enemy!")
+        print(f"Winner! You won {player_rounds_won} round(s) against the computer.")
     else:
-        print(f"General! You lost {computer_rounds_lost} round(s) against the enemy...")
+        print(f"Loser! You lost {computer_rounds_lost} round(s) against the computer.")
 
 
 if __name__ == "__main__":

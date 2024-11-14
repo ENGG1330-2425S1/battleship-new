@@ -8,30 +8,30 @@ def add_players():
     players = []
     while True:
         try:
-            num_players = int(input("How many Generals do we have? "))
+            num_players = int(input("Enter the number of players: "))
             if num_players < 1:
-                raise ValueError("Number of Generals must be at least 1.")
+                raise ValueError("Number of players must be at least 1.")
             break
         except ValueError as e:
             print(e)
 
     for _ in range(num_players):
-        name = input("General's name: ")
+        name = input("Enter player name: ")
         players.append(name)
     return players
 
 
 def select_attack_method():
-    print("Select your BOMB:")
+    print("Select your attack method:")
     print("h - Horizontal bomb")
     print("v - Vertical bomb")
     print("c - Cross bomb")
-    print("b - Single bomb")  # New option for common bomb
+    print("b - Common bomb")  # New option for common bomb
     while True:
         choice = input("Enter your choice (h, v, c, b): ").strip().lower()
         if choice in ["h", "v", "c", "b"]:
             return choice
-        print("Invalid choice, general! Please try again!")
+        print("Invalid choice. Please try again.")
 
 
 def generate_horizontal_positions(start_row, start_col):
@@ -82,7 +82,7 @@ def user_attack(matrix, hitted_matrix):
         elif attack_type == "b":  # For common bomb
             positions = [(row, col)]  # Only attack the specified position
         else:
-            error_message = "Invalid Bomb Selected, General! Please try again!"
+            error_message = "Invalid attack type selected."
             continue
 
         # Check if all positions are valid
@@ -93,7 +93,7 @@ def user_attack(matrix, hitted_matrix):
             or pos[1] >= len(matrix[0])
             for pos in positions
         ):
-            error_message = "One or more positions are out of bounds, General!"
+            error_message = "One or more positions are out of bounds."
             continue
 
         # Process the attacks for all positions
@@ -108,7 +108,7 @@ def user_attack(matrix, hitted_matrix):
                 print(f"Attack at {chr(pos[1] + ord('A'))}{pos[0] + 1} was a hit!")
             else:
                 print(
-                    f"Attack at {chr(pos[1] + ord('A'))}{pos[0] + 1} was a miss or already attacked..."
+                    f"Attack at {chr(pos[1] + ord('A'))}{pos[0] + 1} was a miss or already attacked."
                 )
 
             # If the position has already been attacked
@@ -116,7 +116,7 @@ def user_attack(matrix, hitted_matrix):
                 "X",
                 "O",
             ]:  # Assuming 'X' is hit and 'O' is miss
-                error_message = f"Position {chr(pos[1] + ord('A'))}{pos[0] + 1} has already been attacked..."
+                error_message = f"Position {chr(pos[1] + ord('A'))}{pos[0] + 1} has already been attacked."
             else:
                 error_message = (
                     message  # Use the message from the attack function if applicable
@@ -201,7 +201,7 @@ def com_attack(row, col, player_grid, player_hitted_grid, attack_type):
                 hit_occurred = True
             else:
                 player_hitted_grid[r][c] = "O"  # Mark as miss
-                print(f"Attack at {position_label} was a miss...")
+                print(f"Attack at {position_label} was a miss!")
         else:
             print(f"Invalid attack position: row {r}, col {c}")  # Debugging output
 
@@ -230,7 +230,7 @@ def attack(row, col, matrix, hitted_matrix):
             matrix,
             hitted_matrix,
             False,
-            "You have already attacked this position... Please choose another, General!",
+            "You have already attacked this position. Choose another.",
         )
 
     if matrix[row][col] != "~":

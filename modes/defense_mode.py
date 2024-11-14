@@ -29,12 +29,12 @@ def defensemode(player_name):
             if message in ["hit", "miss"]:  # Ensure the message is valid
                 valid_attack = True  # Valid attack, exit the loop
             else:
-                print("Enemy made an invalid attack. Retrying...")  # Notify about invalid attack
+                print("Computer made an invalid attack. Retrying...")  # Notify about invalid attack
 
         # Display results
         print(matrix_output_preprocess(merge_grids(player_hitted_grid, player_grid)))
         print("-" * 30)
-        print(f"Enemy {message}")
+        print(f"Computer {message}")
 
         # Check if computer wins
         if check_win(merge_grids(player_hitted_grid, player_grid)):
@@ -47,9 +47,9 @@ def defensemode(player_name):
 
     # Final result display
     clear_console()
-    print(f"Enemy defeated you in round {counter}!")
+    print(f"Computer won in round {counter}!")
     print("-" * 30)
-    print("Your Final Grid:")
+    print("Final Player Grid:")
     print(matrix_output_preprocess(player_hitted_grid))
 
     return counter  # Return the number of rounds taken

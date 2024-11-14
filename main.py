@@ -9,15 +9,15 @@ def selectmode():
     # welcome()
 
     while True:
-        print("Select mode (battlefields):")
-        print("a - Attack Mode - Attack Enemy Dock!")
-        print("d - Defense Mode - Defense Our Dock!")
-        print("c - Classic Mode - Meet In the Middle Of The Sea!")
+        print("Select mode:")
+        print("a - Attack Mode")
+        print("d - Defense Mode")
+        print("c - Classic Mode")
         mode = str(input("Enter your choice: "))
         if mode in ["a", "d", "c"]:
             break
         else:
-            print("Invalid Input! Please select a valid mode, General!")
+            print("Invalid Input! Please select a valid mode.")
 
     if mode == "a":
         run_attack_mode()

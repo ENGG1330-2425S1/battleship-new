@@ -13,7 +13,7 @@ def validate_direction_input(direction):
                otherwise False. The string contains a warning message if the direction is invalid, otherwise None.
     """
     if direction != "H" and direction != "V":
-        return False, "Warning! Invalid direction!"
+        return False, "Warning: Invalid direction."
     return True, None
 
 
@@ -54,19 +54,19 @@ def handle_position_input(position, matrix):
             - str: An error message if the input is invalid, otherwise None.
     """
     if len(position) < 2:
-        return None, "Invalid input! Please enter a valid position in the format 'A1'."
+        return None, "Invalid input. Please enter a valid position in the format 'A1'."
 
     row_part = position[0].upper()
     col_part = position[1:]
 
     if not row_part.isalpha() or not col_part.isdigit():
-        return None, "Invalid input! Please enter a valid position in the format 'A1'."
+        return None, "Invalid input. Please enter a valid position in the format 'A1'."
 
     row = ord(row_part) - ord("A")
     col = int(col_part) - 1
 
     if row < 0 or row >= len(matrix) or col < 0 or col >= len(matrix[0]):
-        return None, "Invalid input! Position is out of range."
+        return None, "Invalid input. Position is out of range."
 
     return [row, col], None
 
