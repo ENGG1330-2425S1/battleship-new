@@ -52,6 +52,8 @@ def defensemode(player_name):
     print("-" * 30)
     print("Final Player Grid:")
     print(matrix_output_preprocess(player_hitted_grid))
+    print("-" * 30)
+    input("Press Enter to continue...")
 
     return counter  # Return the number of rounds taken
 
