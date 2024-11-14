@@ -16,6 +16,7 @@ def defensemode(player_name):
 
     # Game loop
     while True:
+        clear_console()
         print(f"Round {counter}")
         print("-" * 30)
 
